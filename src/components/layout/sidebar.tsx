@@ -6,7 +6,13 @@ import { MenuItem } from "@/components/navigation/menu-item";
 import { SidebarGroup } from "@/components/navigation/sidebar-group";
 import { cn } from "@/lib/utils";
 
-export function Sidebar({ openMobile, onClose }: { openMobile?: boolean; onClose?: () => void }) {
+export function Sidebar({
+  openMobile,
+  onClose,
+}: {
+  openMobile?: boolean;
+  onClose?: () => void;
+}) {
   const [collapsed, setCollapsed] = React.useState(false);
   return (
     <aside
@@ -18,30 +24,59 @@ export function Sidebar({ openMobile, onClose }: { openMobile?: boolean; onClose
       aria-label="Sidebar"
     >
       <div className="flex items-center justify-between px-2 py-1">
-        <div className={cn("text-lg font-bold", collapsed && "md:hidden")}>Admin</div>
+        <div className={cn("text-lg font-bold", collapsed && "md:hidden")}>
+          Admin
+        </div>
         <button
           onClick={() => setCollapsed((v) => !v)}
           className="hidden rounded-md p-2 hover:bg-neutral-100 dark:hover:bg-neutral-800 md:block"
           aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
         >
-          {collapsed ? <Plus className="h-4 w-4" /> : <Minus className="h-4 w-4" />}
+          {collapsed ? (
+            <Plus className="h-4 w-4" />
+          ) : (
+            <Minus className="h-4 w-4" />
+          )}
         </button>
-        <button onClick={onClose} className="rounded-md px-2 py-1 text-xs hover:bg-neutral-100 dark:hover:bg-neutral-800 md:hidden">Close</button>
+        <button
+          onClick={onClose}
+          className="rounded-md px-2 py-1 text-xs hover:bg-neutral-100 dark:hover:bg-neutral-800 md:hidden"
+        >
+          Close
+        </button>
       </div>
-      <nav className={cn("mt-1", collapsed ? "space-y-0" : "space-y-4")}> 
+      <nav className={cn("mt-1", collapsed ? "space-y-0" : "space-y-4")}>
         <SidebarGroup label="Dashboard" collapsed={collapsed}>
-          <MenuItem href="/" label="Overview" icon={<Home className="h-4 w-4" />} collapsed={collapsed} />
-          <MenuItem href="/analytics" label="Analytics" icon={<BarChart3 className="h-4 w-4" />} collapsed={collapsed} />
+          <MenuItem
+            href="/"
+            label="Overview"
+            icon={<Home className="h-4 w-4" />}
+            collapsed={collapsed}
+          />
+          <MenuItem
+            href="/analytics"
+            label="Analytics"
+            icon={<BarChart3 className="h-4 w-4" />}
+            collapsed={collapsed}
+          />
         </SidebarGroup>
         <SidebarGroup label="Users" collapsed={collapsed}>
-          <MenuItem href="/users" label="All Users" icon={<Users className="h-4 w-4" />} collapsed={collapsed} />
+          <MenuItem
+            href="/users"
+            label="All Users"
+            icon={<Users className="h-4 w-4" />}
+            collapsed={collapsed}
+          />
         </SidebarGroup>
         <SidebarGroup label="Settings" collapsed={collapsed}>
-          <MenuItem href="/settings" label="General" icon={<Settings className="h-4 w-4" />} collapsed={collapsed} />
+          <MenuItem
+            href="/settings"
+            label="General"
+            icon={<Settings className="h-4 w-4" />}
+            collapsed={collapsed}
+          />
         </SidebarGroup>
       </nav>
     </aside>
   );
 }
-
-
