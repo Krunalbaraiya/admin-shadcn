@@ -25,7 +25,7 @@ export function Breadcrumb() {
         <li>
           <Link href="/" className="hover:underline">Home</Link>
         </li>
-        {paths.map((p, i) => (
+        {paths.map((p) => (
           <React.Fragment key={p.href}>
             <li aria-hidden className="px-1">/</li>
             <li>
