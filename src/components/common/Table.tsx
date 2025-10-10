@@ -130,7 +130,7 @@ export function DataTable<T extends { id?: string | number }>({
                         </td>
                       )}
                       {columns.map((col) => {
-                        const value = row[col.key];
+                        const value: T[keyof T] = row[col.key];
                         return (
                           <td
                             key={String(col.key)}

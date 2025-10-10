@@ -136,7 +136,11 @@ export function DataTable<T extends Record<string, unknown>>({
                       onChange={(e) => {
                         setSelected((s) => {
                           const n = new Set(s);
-                          e.target.checked ? n.add(i) : n.delete(i);
+                          if (e.target.checked) {
+                            n.add(i);
+                          } else {
+                            n.delete(i);
+                          }
                           return n;
                         });
                       }}

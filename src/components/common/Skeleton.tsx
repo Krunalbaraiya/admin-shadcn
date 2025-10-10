@@ -58,7 +58,8 @@ export function TableSkeleton({ rows = 5, columns = 4 }: { rows?: number; column
   return (
     <div className="w-full overflow-hidden rounded-md border dark:border-neutral-800">
       <div className="grid grid-cols-[repeat(var(--cols),minmax(0,1fr))] border-b px-3 py-2 text-sm font-medium dark:border-neutral-800" style={{
-        ['--cols' as string]: columns,
+        // @ts-expect-error CSS custom properties are not typed
+        ['--cols']: columns,
       }}>
         {Array.from({ length: columns }).map((_, i) => (
           <Skeleton key={i} className="h-4 w-3/5" />
@@ -67,7 +68,8 @@ export function TableSkeleton({ rows = 5, columns = 4 }: { rows?: number; column
       <div>
         {Array.from({ length: rows }).map((_, r) => (
           <div key={r} className="grid grid-cols-[repeat(var(--cols),minmax(0,1fr))] border-b px-3 py-3 dark:border-neutral-900" style={{
-            ['--cols' as string]: columns,
+            // @ts-expect-error CSS custom properties are not typed
+            ['--cols']: columns,
           }}>
             {Array.from({ length: columns }).map((_, c) => (
               <Skeleton key={c} className="h-3 w-4/5" />
