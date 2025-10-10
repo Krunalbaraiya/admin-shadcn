@@ -26,7 +26,7 @@ const variantClasses: Record<NonNullable<ButtonProps["variant"]>, string> = {
 };
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant = "primary", loading = false, leftIcon, rightIcon, children, disabled, ...props }, ref) => {
+  ({ className, variant = "primary", loading = false, leftIcon, rightIcon, children, disabled, onDrag, onDragEnd, onDragStart, ...props }, ref) => {
     return (
       <motion.button
         ref={ref}
@@ -39,6 +39,9 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         )}
         aria-busy={loading}
         disabled={disabled || loading}
+        onDrag={onDrag}
+        onDragEnd={onDragEnd}
+        onDragStart={onDragStart}
         {...props}
       >
         {loading && (
