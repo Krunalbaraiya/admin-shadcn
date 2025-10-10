@@ -9,7 +9,7 @@ export type Column<T> = {
   key: keyof T;
   header: string;
   sortable?: boolean;
-  render?: (value: any, row: T) => React.ReactNode;
+  render?: (value: T[keyof T], row: T) => React.ReactNode;
   className?: string;
 };
 
@@ -30,7 +30,9 @@ export function DataTable<T extends { id?: string | number }>({
   selectableRows = false,
   className,
 }: DataTableProps<T>) {
-  const [selectedIds, setSelectedIds] = React.useState<Set<string | number>>(new Set());
+  const [selectedIds, setSelectedIds] = React.useState<Set<string | number>>(
+    new Set()
+  );
 
   const toggleAll = () => {
     if (selectedIds.size === data.length) {
@@ -50,18 +52,33 @@ export function DataTable<T extends { id?: string | number }>({
   };
 
   return (
-    <div className={cn("overflow-hidden rounded-md border dark:border-neutral-800", className)}>
+    <div
+      className={cn(
+        "overflow-hidden rounded-md border dark:border-neutral-800",
+        className
+      )}
+    >
       <div className="overflow-x-auto">
         <table className="min-w-full text-left text-sm">
           <thead className="border-b bg-neutral-50 text-neutral-700 dark:border-neutral-800 dark:bg-neutral-900 dark:text-neutral-200">
             <tr>
               {selectableRows && (
                 <th className="w-10 px-3 py-2">
-                  <input type="checkbox" aria-label="Select all" checked={selectedIds.size === data.length && data.length > 0} onChange={toggleAll} />
+                  <input
+                    type="checkbox"
+                    aria-label="Select all"
+                    checked={
+                      selectedIds.size === data.length && data.length > 0
+                    }
+                    onChange={toggleAll}
+                  />
                 </th>
               )}
               {columns.map((col) => (
-                <th key={String(col.key)} className={cn("px-3 py-2 font-medium", col.className)}>
+                <th
+                  key={String(col.key)}
+                  className={cn("px-3 py-2 font-medium", col.className)}
+                >
                   {col.header}
                 </th>
               ))}
@@ -71,13 +88,22 @@ export function DataTable<T extends { id?: string | number }>({
             <AnimatePresence initial={false}>
               {loading ? (
                 <tr>
-                  <td colSpan={(selectableRows ? 1 : 0) + columns.length} className="p-3">
-                    <TableSkeleton rows={5} columns={columns.length + (selectableRows ? 1 : 0)} />
+                  <td
+                    colSpan={(selectableRows ? 1 : 0) + columns.length}
+                    className="p-3"
+                  >
+                    <TableSkeleton
+                      rows={5}
+                      columns={columns.length + (selectableRows ? 1 : 0)}
+                    />
                   </td>
                 </tr>
               ) : data.length === 0 ? (
                 <tr>
-                  <td colSpan={(selectableRows ? 1 : 0) + columns.length} className="px-3 py-10 text-center text-sm text-neutral-500 dark:text-neutral-400">
+                  <td
+                    colSpan={(selectableRows ? 1 : 0) + columns.length}
+                    className="px-3 py-10 text-center text-sm text-neutral-500 dark:text-neutral-400"
+                  >
                     {emptyText}
                   </td>
                 </tr>
@@ -95,14 +121,24 @@ export function DataTable<T extends { id?: string | number }>({
                     >
                       {selectableRows && (
                         <td className="w-10 px-3 py-2">
-                          <input type="checkbox" aria-label="Select row" checked={selectedIds.has(id)} onChange={() => toggleRow(id)} />
+                          <input
+                            type="checkbox"
+                            aria-label="Select row"
+                            checked={selectedIds.has(id)}
+                            onChange={() => toggleRow(id)}
+                          />
                         </td>
                       )}
                       {columns.map((col) => {
                         const value = row[col.key];
                         return (
-                          <td key={String(col.key)} className={cn("px-3 py-2", col.className)}>
-                            {col.render ? col.render(value, row) : String(value ?? "")}
+                          <td
+                            key={String(col.key)}
+                            className={cn("px-3 py-2", col.className)}
+                          >
+                            {col.render
+                              ? col.render(value, row)
+                              : String(value ?? "")}
                           </td>
                         );
                       })}
@@ -117,5 +153,3 @@ export function DataTable<T extends { id?: string | number }>({
     </div>
   );
 }
-
-

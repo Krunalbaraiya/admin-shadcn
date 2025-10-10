@@ -8,7 +8,7 @@ export type Column<T> = {
   key: keyof T;
   header: string;
   sortable?: boolean;
-  render?: (value: any, row: T) => React.ReactNode;
+  render?: (value: T[keyof T], row: T) => React.ReactNode;
 };
 
 export type TableProps<T> = {
@@ -26,7 +26,7 @@ export type TableProps<T> = {
   loading?: boolean;
 };
 
-export function DataTable<T extends Record<string, any>>({
+export function DataTable<T extends Record<string, unknown>>({
   data,
   columns,
   page = 1,
@@ -48,10 +48,16 @@ export function DataTable<T extends Record<string, any>>({
     if (!sort) return data;
     const copy = [...data];
     copy.sort((a, b) => {
-      const av = a[sort.key];
-      const bv = b[sort.key];
+      const av = a[sort.key] as unknown as number | string | boolean | Date | null | undefined;
+      const bv = b[sort.key] as unknown as number | string | boolean | Date | null | undefined;
       if (av === bv) return 0;
-      return (av > bv ? 1 : -1) * (sort.dir === "asc" ? 1 : -1);
+      const aVal = av instanceof Date ? av.getTime() : (av as number | string | boolean | null | undefined);
+      const bVal = bv instanceof Date ? bv.getTime() : (bv as number | string | boolean | null | undefined);
+      // Falls back to string comparison for non-number/boolean
+      const cmp = typeof aVal === "number" && typeof bVal === "number"
+        ? (aVal - bVal)
+        : String(aVal ?? "").localeCompare(String(bVal ?? ""));
+      return (cmp > 0 ? 1 : cmp < 0 ? -1 : 0) * (sort.dir === "asc" ? 1 : -1);
     });
     return copy;
   }, [data, sort]);
