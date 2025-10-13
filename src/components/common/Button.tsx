@@ -1,7 +1,6 @@
 "use client";
 
 import * as React from "react";
-import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
@@ -26,35 +25,27 @@ const variantClasses: Record<NonNullable<ButtonProps["variant"]>, string> = {
 };
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant = "primary", loading = false, leftIcon, rightIcon, children, disabled, onDrag, onDragEnd, onDragStart, ...props }, ref) => {
+  ({ className, variant = "primary", loading = false, leftIcon, rightIcon, children, disabled, ...props }, ref) => {
     return (
-      <motion.button
+      <button
         ref={ref}
-        whileTap={{ scale: 0.98 }}
-        whileHover={!disabled && !loading ? { y: -1 } : undefined}
         className={cn(
-          "inline-flex items-center justify-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition focus:outline-none focus:ring-2 focus:ring-neutral-400 disabled:cursor-not-allowed disabled:opacity-60 dark:focus:ring-neutral-600",
+          "inline-flex items-center justify-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-neutral-400 disabled:cursor-not-allowed disabled:opacity-60 dark:focus:ring-neutral-600",
+          "active:scale-[0.98] hover:-translate-y-0.5",
           variantClasses[variant],
           className
         )}
         aria-busy={loading}
         disabled={disabled || loading}
-        onDrag={onDrag}
-        onDragEnd={onDragEnd}
-        onDragStart={onDragStart}
         {...props}
       >
         {loading && (
-          <motion.span
-            className="inline-block h-4 w-4 rounded-full border-2 border-white/70 border-t-transparent dark:border-neutral-200/80"
-            animate={{ rotate: 360 }}
-            transition={{ ease: "linear", repeat: Infinity, duration: 0.9 }}
-          />
+          <span className="inline-block h-4 w-4 rounded-full border-2 border-white/70 border-t-transparent dark:border-neutral-200/80 animate-spin" />
         )}
         {!loading && leftIcon}
         <span className="truncate">{children}</span>
         {!loading && rightIcon}
-      </motion.button>
+      </button>
     );
   }
 );
