@@ -5,7 +5,11 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
-export function LoginForm({ onSubmit }: { onSubmit?: (values: { email: string; password: string }) => void }) {
+export function LoginForm({
+  onSubmit,
+}: {
+  onSubmit?: (values: { email: string; password: string }) => void;
+}) {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
 
@@ -19,14 +23,27 @@ export function LoginForm({ onSubmit }: { onSubmit?: (values: { email: string; p
     >
       <div>
         <label className="mb-1 block text-sm font-medium">Email</label>
-        <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+        <Input
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
       </div>
       <div>
         <label className="mb-1 block text-sm font-medium">Password</label>
-        <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+        <Input
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
       </div>
       <div className="flex items-center justify-between">
-        <Link href="/forgot-password" className="text-sm text-neutral-600 hover:underline dark:text-neutral-400">
+        <Link
+          href="/forgot-password"
+          className="text-sm text-neutral-600 hover:underline dark:text-neutral-400"
+        >
           Forgot password?
         </Link>
       </div>
@@ -36,5 +53,3 @@ export function LoginForm({ onSubmit }: { onSubmit?: (values: { email: string; p
     </form>
   );
 }
-
-

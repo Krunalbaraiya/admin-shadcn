@@ -1,6 +1,12 @@
 "use client";
 
-import React, { createContext, useCallback, useEffect, useMemo, useState } from "react";
+import React, {
+  createContext,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 
 type Theme = "light" | "dark" | "system";
 
@@ -21,15 +27,25 @@ function getSystemPrefersDark(): boolean {
 function applyThemeClass(theme: Theme) {
   if (typeof document === "undefined") return;
   const root = document.documentElement;
-  const resolveDark = theme === "dark" || (theme === "system" && getSystemPrefersDark());
+  const resolveDark =
+    theme === "dark" || (theme === "system" && getSystemPrefersDark());
   root.classList.toggle("dark", resolveDark);
 }
 
-export function ThemeProvider({ children, defaultTheme = "system" }: { children: React.ReactNode; defaultTheme?: Theme }) {
+export function ThemeProvider({
+  children,
+  defaultTheme = "system",
+}: {
+  children: React.ReactNode;
+  defaultTheme?: Theme;
+}) {
   const [theme, setThemeState] = useState<Theme>(defaultTheme);
 
   useEffect(() => {
-    const stored = typeof window !== "undefined" ? (localStorage.getItem("theme") as Theme | null) : null;
+    const stored =
+      typeof window !== "undefined"
+        ? (localStorage.getItem("theme") as Theme | null)
+        : null;
     if (stored) setThemeState(stored);
   }, []);
 
@@ -53,9 +69,20 @@ export function ThemeProvider({ children, defaultTheme = "system" }: { children:
     setThemeState((prev) => (prev === "dark" ? "light" : "dark"));
   }, []);
 
-  const value = useMemo<ThemeContextValue>(() => ({ theme, isDark: theme === "dark" || (theme === "system" && getSystemPrefersDark()), setTheme, toggleTheme }), [theme, setTheme, toggleTheme]);
+  const value = useMemo<ThemeContextValue>(
+    () => ({
+      theme,
+      isDark:
+        theme === "dark" || (theme === "system" && getSystemPrefersDark()),
+      setTheme,
+      toggleTheme,
+    }),
+    [theme, setTheme, toggleTheme]
+  );
 
-  return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;
+  return (
+    <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
+  );
 }
 
 export function useTheme(): ThemeContextValue {
@@ -63,5 +90,3 @@ export function useTheme(): ThemeContextValue {
   if (!ctx) throw new Error("useTheme must be used within ThemeProvider");
   return ctx;
 }
-
-

@@ -18,14 +18,24 @@ const variantClasses: Record<NonNullable<ButtonProps["variant"]>, string> = {
     "bg-neutral-100 text-neutral-900 hover:bg-neutral-200 dark:bg-neutral-800 dark:text-neutral-100 dark:hover:bg-neutral-700",
   outline:
     "border border-neutral-300 bg-white hover:bg-neutral-100 dark:border-neutral-700 dark:bg-neutral-900 dark:hover:bg-neutral-800",
-  ghost:
-    "hover:bg-neutral-100 dark:hover:bg-neutral-800",
-  destructive:
-    "bg-red-600 text-white hover:bg-red-700",
+  ghost: "hover:bg-neutral-100 dark:hover:bg-neutral-800",
+  destructive: "bg-red-600 text-white hover:bg-red-700",
 };
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant = "primary", loading = false, leftIcon, rightIcon, children, disabled, ...props }, ref) => {
+  (
+    {
+      className,
+      variant = "primary",
+      loading = false,
+      leftIcon,
+      rightIcon,
+      children,
+      disabled,
+      ...props
+    },
+    ref
+  ) => {
     return (
       <button
         ref={ref}
@@ -51,5 +61,3 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 );
 
 Button.displayName = "Button";
-
-
