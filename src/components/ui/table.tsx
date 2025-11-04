@@ -41,22 +41,44 @@ export function DataTable<T extends Record<string, unknown>>({
   loading,
 }: TableProps<T>) {
   const [q, setQ] = React.useState("");
-  const [sort, setSort] = React.useState<{ key: keyof T; dir: "asc" | "desc" } | null>(null);
+  const [sort, setSort] = React.useState<{
+    key: keyof T;
+    dir: "asc" | "desc";
+  } | null>(null);
   const [selected, setSelected] = React.useState<Set<number>>(new Set());
 
   const sorted = React.useMemo(() => {
     if (!sort) return data;
     const copy = [...data];
     copy.sort((a, b) => {
-      const av = a[sort.key] as unknown as number | string | boolean | Date | null | undefined;
-      const bv = b[sort.key] as unknown as number | string | boolean | Date | null | undefined;
+      const av = a[sort.key] as unknown as
+        | number
+        | string
+        | boolean
+        | Date
+        | null
+        | undefined;
+      const bv = b[sort.key] as unknown as
+        | number
+        | string
+        | boolean
+        | Date
+        | null
+        | undefined;
       if (av === bv) return 0;
-      const aVal = av instanceof Date ? av.getTime() : (av as number | string | boolean | null | undefined);
-      const bVal = bv instanceof Date ? bv.getTime() : (bv as number | string | boolean | null | undefined);
+      const aVal =
+        av instanceof Date
+          ? av.getTime()
+          : (av as number | string | boolean | null | undefined);
+      const bVal =
+        bv instanceof Date
+          ? bv.getTime()
+          : (bv as number | string | boolean | null | undefined);
       // Falls back to string comparison for non-number/boolean
-      const cmp = typeof aVal === "number" && typeof bVal === "number"
-        ? (aVal - bVal)
-        : String(aVal ?? "").localeCompare(String(bVal ?? ""));
+      const cmp =
+        typeof aVal === "number" && typeof bVal === "number"
+          ? aVal - bVal
+          : String(aVal ?? "").localeCompare(String(bVal ?? ""));
       return (cmp > 0 ? 1 : cmp < 0 ? -1 : 0) * (sort.dir === "asc" ? 1 : -1);
     });
     return copy;
@@ -69,7 +91,12 @@ export function DataTable<T extends Record<string, unknown>>({
   const totalPages = Math.max(1, Math.ceil(total / pageSize));
 
   return (
-    <div className={cn("w-full overflow-hidden rounded-md border dark:border-neutral-800", className)}>
+    <div
+      className={cn(
+        "w-full overflow-hidden rounded-md border dark:border-neutral-800",
+        className
+      )}
+    >
       <div className="flex items-center justify-between gap-2 border-b p-2 dark:border-neutral-800">
         <div className="relative w-full max-w-sm">
           <Search className="pointer-events-none absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 text-neutral-400" />
@@ -83,7 +110,10 @@ export function DataTable<T extends Record<string, unknown>>({
             className="w-full rounded-md border border-neutral-200 bg-white pl-8 pr-3 py-1.5 text-sm outline-none focus:ring-2 focus:ring-neutral-400 dark:border-neutral-800 dark:bg-neutral-900 dark:text-neutral-100 dark:focus:ring-neutral-600"
           />
         </div>
-        <button onClick={onExport} className="inline-flex items-center gap-2 rounded-md border px-2 py-1.5 text-sm hover:bg-neutral-50 dark:border-neutral-800 dark:hover:bg-neutral-800">
+        <button
+          onClick={onExport}
+          className="inline-flex items-center gap-2 rounded-md border px-2 py-1.5 text-sm hover:bg-neutral-50 dark:border-neutral-800 dark:hover:bg-neutral-800"
+        >
           <Download className="h-4 w-4" /> Export
         </button>
       </div>
@@ -91,24 +121,52 @@ export function DataTable<T extends Record<string, unknown>>({
         <table className="min-w-full border-separate border-spacing-0">
           <thead className="sticky top-0 z-10 bg-white dark:bg-neutral-900">
             <tr>
-              {selectableRows && <th className="sticky left-0 z-20 bg-inherit p-2 w-11 min-w-11 max-w-11 text-center">
-                <input
-                  type="checkbox"
-                  aria-label="Select all rows"
-                  checked={selected.size === sorted.length && sorted.length > 0}
-                  onChange={(e) => {
-                    setSelected(e.target.checked ? new Set(sorted.map((_, i) => i)) : new Set());
-                  }}
-                />
-              </th>}
+              {selectableRows && (
+                <th className="sticky left-0 z-20 bg-inherit p-2 w-11 min-w-11 max-w-11 text-center">
+                  <input
+                    type="checkbox"
+                    aria-label="Select all rows"
+                    checked={
+                      selected.size === sorted.length && sorted.length > 0
+                    }
+                    onChange={(e) => {
+                      setSelected(
+                        e.target.checked
+                          ? new Set(sorted.map((_, i) => i))
+                          : new Set()
+                      );
+                    }}
+                  />
+                </th>
+              )}
               {columns.map((c) => (
-                <th key={String(c.key)} className="whitespace-nowrap border-b p-3 text-left text-xs font-semibold uppercase tracking-wide text-neutral-500 dark:border-neutral-800 dark:text-neutral-400">
+                <th
+                  key={String(c.key)}
+                  className="whitespace-nowrap border-b p-3 text-left text-xs font-semibold uppercase tracking-wide text-neutral-500 dark:border-neutral-800 dark:text-neutral-400"
+                >
                   <button
-                    className={cn("inline-flex items-center gap-1", !c.sortable && "cursor-default")}
-                    onClick={() => c.sortable && setSort((s) => ({ key: c.key, dir: s?.dir === "asc" ? "desc" : "asc" }))}
+                    className={cn(
+                      "inline-flex items-center gap-1",
+                      !c.sortable && "cursor-default"
+                    )}
+                    onClick={() =>
+                      c.sortable &&
+                      setSort((s) => ({
+                        key: c.key,
+                        dir: s?.dir === "asc" ? "desc" : "asc",
+                      }))
+                    }
                   >
                     {c.header}
-                    {c.sortable && <span className="text-neutral-400">{sort?.key === c.key ? (sort.dir === "asc" ? "▲" : "▼") : "↕"}</span>}
+                    {c.sortable && (
+                      <span className="text-neutral-400">
+                        {sort?.key === c.key
+                          ? sort.dir === "asc"
+                            ? "▲"
+                            : "▼"
+                          : "↕"}
+                      </span>
+                    )}
                   </button>
                 </th>
               ))}
@@ -117,43 +175,62 @@ export function DataTable<T extends Record<string, unknown>>({
           <tbody>
             {loading && (
               <tr>
-                <td colSpan={columns.length + (selectableRows ? 1 : 0)} className="p-6 text-center text-sm">Loading...</td>
+                <td
+                  colSpan={columns.length + (selectableRows ? 1 : 0)}
+                  className="p-6 text-center text-sm"
+                >
+                  Loading...
+                </td>
               </tr>
             )}
             {!loading && sorted.length === 0 && (
               <tr>
-                <td colSpan={columns.length + (selectableRows ? 1 : 0)} className="p-6 text-center text-sm text-neutral-500">No data found</td>
+                <td
+                  colSpan={columns.length + (selectableRows ? 1 : 0)}
+                  className="p-6 text-center text-sm text-neutral-500"
+                >
+                  No data found
+                </td>
               </tr>
             )}
-            {!loading && sorted.map((row, i) => (
-              <tr key={i} className="odd:bg-neutral-50/40 hover:bg-neutral-50 dark:odd:bg-neutral-900/40 dark:hover:bg-neutral-800/40">
-                {selectableRows && (
-                  <td className="sticky left-0 z-10 bg-inherit p-2 w-11 min-w-11 max-w-11 text-center">
-                    <input
-                      type="checkbox"
-                      aria-label={`Select row ${i + 1}`}
-                      checked={selected.has(i)}
-                      onChange={(e) => {
-                        setSelected((s) => {
-                          const n = new Set(s);
-                          if (e.target.checked) {
-                            n.add(i);
-                          } else {
-                            n.delete(i);
-                          }
-                          return n;
-                        });
-                      }}
-                    />
-                  </td>
-                )}
-                {columns.map((c) => (
-                  <td key={String(c.key)} className="whitespace-nowrap border-b p-3 text-sm dark:border-neutral-800">
-                    {c.render ? c.render(row[c.key], row) : String(row[c.key])}
-                  </td>
-                ))}
-              </tr>
-            ))}
+            {!loading &&
+              sorted.map((row, i) => (
+                <tr
+                  key={i}
+                  className="odd:bg-neutral-50/40 hover:bg-neutral-50 dark:odd:bg-neutral-900/40 dark:hover:bg-neutral-800/40"
+                >
+                  {selectableRows && (
+                    <td className="sticky left-0 z-10 bg-inherit p-2 w-11 min-w-11 max-w-11 text-center">
+                      <input
+                        type="checkbox"
+                        aria-label={`Select row ${i + 1}`}
+                        checked={selected.has(i)}
+                        onChange={(e) => {
+                          setSelected((s) => {
+                            const n = new Set(s);
+                            if (e.target.checked) {
+                              n.add(i);
+                            } else {
+                              n.delete(i);
+                            }
+                            return n;
+                          });
+                        }}
+                      />
+                    </td>
+                  )}
+                  {columns.map((c) => (
+                    <td
+                      key={String(c.key)}
+                      className="whitespace-nowrap border-b p-3 text-sm dark:border-neutral-800"
+                    >
+                      {c.render
+                        ? c.render(row[c.key], row)
+                        : String(row[c.key])}
+                    </td>
+                  ))}
+                </tr>
+              ))}
           </tbody>
         </table>
       </div>
@@ -181,5 +258,3 @@ export function DataTable<T extends Record<string, unknown>>({
     </div>
   );
 }
-
-

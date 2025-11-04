@@ -3,7 +3,12 @@
 import React from "react";
 import { cn } from "@/lib/utils";
 
-export type Toast = { id: number; title?: string; description?: string; variant?: "default" | "success" | "error" };
+export type Toast = {
+  id: number;
+  title?: string;
+  description?: string;
+  variant?: "default" | "success" | "error";
+};
 
 type ToastContextValue = {
   toasts: Toast[];
@@ -15,8 +20,10 @@ const ToastContext = React.createContext<ToastContextValue | null>(null);
 
 export function ToastProvider({ children }: { children: React.ReactNode }) {
   const [toasts, setToasts] = React.useState<Toast[]>([]);
-  const show = (toast: Omit<Toast, "id">) => setToasts((t) => [...t, { id: Date.now() + Math.random(), ...toast }]);
-  const dismiss = (id: number) => setToasts((t) => t.filter((x) => x.id !== id));
+  const show = (toast: Omit<Toast, "id">) =>
+    setToasts((t) => [...t, { id: Date.now() + Math.random(), ...toast }]);
+  const dismiss = (id: number) =>
+    setToasts((t) => t.filter((x) => x.id !== id));
   return (
     <ToastContext.Provider value={{ toasts, show, dismiss }}>
       {children}
@@ -31,9 +38,16 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
             )}
           >
             {t.title && <div className="text-sm font-semibold">{t.title}</div>}
-            {t.description && <div className="text-xs text-neutral-600 dark:text-neutral-400">{t.description}</div>}
+            {t.description && (
+              <div className="text-xs text-neutral-600 dark:text-neutral-400">
+                {t.description}
+              </div>
+            )}
             <div className="mt-2 text-right">
-              <button className="text-xs text-neutral-500 hover:underline" onClick={() => dismiss(t.id)}>
+              <button
+                className="text-xs text-neutral-500 hover:underline"
+                onClick={() => dismiss(t.id)}
+              >
                 Dismiss
               </button>
             </div>
@@ -49,5 +63,3 @@ export function useToast() {
   if (!ctx) throw new Error("useToast must be used within ToastProvider");
   return ctx;
 }
-
-

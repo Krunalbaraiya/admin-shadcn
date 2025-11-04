@@ -4,7 +4,11 @@ import React from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
-export function ForgotPasswordForm({ onSubmit }: { onSubmit?: (values: { email: string }) => void }) {
+export function ForgotPasswordForm({
+  onSubmit,
+}: {
+  onSubmit?: (values: { email: string }) => void;
+}) {
   const [email, setEmail] = React.useState("");
   return (
     <form
@@ -16,7 +20,12 @@ export function ForgotPasswordForm({ onSubmit }: { onSubmit?: (values: { email: 
     >
       <div>
         <label className="mb-1 block text-sm font-medium">Email</label>
-        <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+        <Input
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
       </div>
       <Button type="submit" className="w-full">
         Send reset link
@@ -24,5 +33,3 @@ export function ForgotPasswordForm({ onSubmit }: { onSubmit?: (values: { email: 
     </form>
   );
 }
-
-

@@ -1,7 +1,15 @@
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-export function SummaryCard({ title, value, icon }: { title: string; value: string | number; icon?: React.ReactNode }) {
+export function SummaryCard({
+  title,
+  value,
+  icon,
+}: {
+  title: string;
+  value: string | number;
+  icon?: React.ReactNode;
+}) {
   return (
     <Card>
       <CardHeader>
@@ -16,5 +24,3 @@ export function SummaryCard({ title, value, icon }: { title: string; value: stri
     </Card>
   );
 }
-
-

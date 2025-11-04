@@ -4,7 +4,15 @@ import React from "react";
 import { CalendarDays } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-export function DatePicker({ value, onChange, className }: { value?: string; onChange?: (value: string) => void; className?: string }) {
+export function DatePicker({
+  value,
+  onChange,
+  className,
+}: {
+  value?: string;
+  onChange?: (value: string) => void;
+  className?: string;
+}) {
   return (
     <div className={cn("relative", className)}>
       <input
@@ -17,5 +25,3 @@ export function DatePicker({ value, onChange, className }: { value?: string; onC
     </div>
   );
 }
-
-

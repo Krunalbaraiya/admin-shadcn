@@ -3,7 +3,13 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 type SeriesPoint = { label: string; value: number };
 
-export function SimpleBarChart({ title, data }: { title: string; data: SeriesPoint[] }) {
+export function SimpleBarChart({
+  title,
+  data,
+}: {
+  title: string;
+  data: SeriesPoint[];
+}) {
   const max = Math.max(1, ...data.map((d) => d.value));
   return (
     <Card>
@@ -19,7 +25,9 @@ export function SimpleBarChart({ title, data }: { title: string; data: SeriesPoi
                 style={{ height: `${(d.value / max) * 120 + 8}px` }}
                 title={`${d.label}: ${d.value}`}
               />
-              <div className="mt-1 truncate text-center text-[10px] text-neutral-500 dark:text-neutral-400">{d.label}</div>
+              <div className="mt-1 truncate text-center text-[10px] text-neutral-500 dark:text-neutral-400">
+                {d.label}
+              </div>
             </div>
           ))}
         </div>
@@ -27,5 +35,3 @@ export function SimpleBarChart({ title, data }: { title: string; data: SeriesPoi
     </Card>
   );
 }
-
-
