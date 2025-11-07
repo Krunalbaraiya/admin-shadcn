@@ -46,28 +46,6 @@ export default function Home() {
 
   return (
     <AdminShell title="Dashboard">
-      {/* Summary Cards Section */}
-      <section>
-        <Heading title="Overview Stats" className="mb-4" />
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
-          <SummaryCard
-            title="Users"
-            value="1,240"
-            icon={<Users className="h-4 w-4" />}
-          />
-          <SummaryCard
-            title="Orders"
-            value="320"
-            icon={<ShoppingCart className="h-4 w-4" />}
-          />
-          <SummaryCard
-            title="Revenue"
-            value="$12,430"
-            icon={<DollarSign className="h-4 w-4" />}
-          />
-          <SummaryCard title="Refunds" value="$430" />
-        </div>
-      </section>
 
       {/* Analytics Section */}
       <section className="mt-8">
