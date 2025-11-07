@@ -48,7 +48,7 @@ export default function Home() {
     <AdminShell title="Dashboard">
 
       {/* Analytics Section */}
-      <section className="mt-8">
+      <section>
         <div className="grid grid-cols-1 gap-3 lg:grid-cols-3">
           {/* Chart Component */}
           <div className="lg:col-span-2">
